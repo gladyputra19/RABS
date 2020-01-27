@@ -30,17 +30,28 @@ namespace CRUD
 
         private void LoginBTN_Click(object sender, RoutedEventArgs e)
         {
-            Configuration configuration;
+            string Mypassword = TB_Password.Password;
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            string hashPassword = BCrypt.Net.BCrypt.HashPassword(Mypassword);
+
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString);
-            var log = con.QueryAsync<Login>("Exec SP_Retrieve_Login @email,@password",
-                      new { email = TB_Email.Text, password = TB_Password.Password }).Result.SingleOrDefault();
+            var log = con.QueryAsync<Login>("select * from TB_M_Login where email = @email",
+                      new { email = TB_Email.Text, password = hashPassword }).Result.SingleOrDefault();
+            var verify = BCrypt.Net.BCrypt.Verify(Mypassword, log.password);
+            
             if (log != null)
             {
-                home show = new home();
+                home show = new home(log.role);
                 show.Show();
                 Close();
-                
+            }
+            else
+            {
+                MessageBox.Show("Invalid Email/Password");
             }
         }
     }
+
+
 }
+

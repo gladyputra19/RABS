@@ -5,20 +5,159 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CRUD"
         mc:Ignorable="d"
-        Title="home" Height="450" Width="800">
-    <Grid Background="#FFE2E2E2">
-        <Grid HorizontalAlignment="Left" Width="147">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="#FF11CFAC"/>
-                    <GradientStop Color="White" Offset="0.992"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <Button  Content="Add Data" HorizontalAlignment="Left" Height="30" Margin="10,10,0,0" VerticalAlignment="Top" Width="112" Click="Button_Click"/>
+        Title="home" Height="auto" Width="900" ResizeMode="NoResize" WindowStyle="None">
+    <Grid  Background="#FFE2E2E2">
+
+
+
+
+
+        <DataGrid Loaded="EmployeeProfile_Loaded" x:Name="EmployeeData" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto" MaxWidth="400" Margin="219,27,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Job" Binding="{Binding JobTitle}"/>
+                <DataGridTextColumn Header="Department" Binding="{Binding Department}"/>
+                <DataGridTextColumn Header="Major" Binding="{Binding Major}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <ComboBox Visibility="Collapsed" Name="cboUpdate" ItemsSource="{Binding Id}" SelectedValuePath="Id" DisplayMemberPath="Id" HorizontalAlignment="Left" Margin="219,200,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Visibility="Collapsed" Name="pickData" Click="PickData_Click" Content="Choose" HorizontalAlignment="Left" Margin="219,227,0,0" VerticalAlignment="Top" Width="120"/>
+
+
+
+        <Grid Background="LightCyan" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="900"/>
+        <Grid Background="LightSkyBlue"  HorizontalAlignment="Left" Height="513" Margin="0,22,0,0" VerticalAlignment="Top" Width="214">
+            <StackPanel HorizontalAlignment="Left" Height="71" Margin="10,149,0,0" VerticalAlignment="Top" Width="194">
+                <Button x:Name="DashboardBTN" Margin="0,0,0,5" Content="Dashboard" Click="DashboardBTN_Click"/>
+                <Button x:Name="EmployeeBTN" Click="EmployeeBTN_Click" Margin="0,0,0,5" Content="Employee"/>
+                <Button Click="ManageData_Click" x:Name="manageData" Margin="0,0,0,5" Content="Manage Data"/>
+            </StackPanel>
+
+            <StackPanel x:Name="dataControl" Margin="80,249,10,146" Orientation="Vertical" Visibility="Collapsed">
+                <Button Click="AddData_Click" x:Name="addData" Content="Insert Data" Margin="0,0,0,5" HorizontalAlignment="Right" VerticalAlignment="Top" Width="114"/>
+                <Button Click="UpdateData_Click" x:Name="updateData" Content="Update Data" Margin="0,0,0,5" HorizontalAlignment="Right" VerticalAlignment="Top" Width="114"/>
+                <Button Content="Delete Data" x:Name="deleteData" HorizontalAlignment="Right" VerticalAlignment="Top" Width="114" Click="DeleteData_Click" Margin="0,0,0,5"/>
+                <Button Click="UserAdd_Click" Content="Add User" x:Name="userAdd" HorizontalAlignment="Right" VerticalAlignment="Top" Width="114"/>
+            </StackPanel>
         </Grid>
-        
-        
-         
-        <!--<Button Name="ShowBTN" Click="ShowBTN_Click" Content="Show Data" HorizontalAlignment="Left" Margin="682,59,0,0" VerticalAlignment="Top" Width="75"/>-->
+
+        <Grid x:Name="InserData" Visibility="Collapsed" Margin="0,1,0,-1">
+            <TextBlock HorizontalAlignment="Left" Margin="233,51,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="50"/>
+            <TextBlock HorizontalAlignment="Left" Margin="234,80,0,0" TextWrapping="Wrap" Text="Job" VerticalAlignment="Top" Width="29"/>
+            <TextBlock HorizontalAlignment="Left" Margin="234,108,0,0" TextWrapping="Wrap" Text="Department" VerticalAlignment="Top" Width="67"/>
+            <TextBlock HorizontalAlignment="Left" Margin="233,138,0,0" TextWrapping="Wrap" Text="Major" VerticalAlignment="Top" Width="42"/>
+            <TextBlock HorizontalAlignment="Left" Margin="234,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="17" Width="97"><Run Text="Phone Number"/><LineBreak/><Run/></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Margin="234,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="66"><Run Text="Birth Place"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+            <TextBox x:Name="BoxPhone" HorizontalAlignment="Left" Height="23" Margin="333,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" />
+            <TextBox x:Name="BoxBirth" HorizontalAlignment="Left" Height="23" Margin="333,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <DatePicker Text="{Binding DateTimeValue, StringFormat=dd-MM-YYYY}" x:Name="boxBirthDate" HorizontalAlignment="Left" Margin="333,247,0,0" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="234,254,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="66"><Run Text="Birth Date"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Margin="475,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="NIK" Width="29"/>
+            <TextBox x:Name="BoxNIK" HorizontalAlignment="Left" Height="23" Margin="558,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <TextBox x:Name="BoxEmail" HorizontalAlignment="Left" Height="23" Margin="558,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="474,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Email" Width="67"/>
+            <ComboBox ItemsSource="{Binding Religion}" DisplayMemberPath="Religion_Name" SelectedValuePath="Religion_Name" x:Name="cboReligion" HorizontalAlignment="Left" Margin="558,104,0,0" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="474,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Religion" Width="67"/>
+            <TextBox x:Name="BoxNPWP" HorizontalAlignment="Left" Height="23" Margin="558,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" RenderTransformOrigin="0.507,0.449"/>
+            <TextBlock HorizontalAlignment="Left" Margin="474,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="NPWP" Width="67"/>
+            <TextBlock HorizontalAlignment="Left" Margin="474,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Bachelor" Width="67"/>
+            <TextBox x:Name="BoxUniversity" HorizontalAlignment="Left" Height="23" Margin="558,188,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" RenderTransformOrigin="0.507,0.449"/>
+            <TextBlock HorizontalAlignment="Left" Margin="475,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="University" Width="67"/>
+            <DatePicker Text="{Binding DateTimeValue, StringFormat=dd-MM-YYYY}" x:Name="BoxJoin" HorizontalAlignment="Left" Margin="558,217,0,0" VerticalAlignment="Top" Width="113" IsTodayHighlighted="True"/>
+            <TextBlock HorizontalAlignment="Left" Margin="474,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Join Date" Width="67"/>
+            <Button x:Name="InsertBTN" Content="Insert" HorizontalAlignment="Left" Height="21" Margin="558,250,0,0" VerticalAlignment="Top" Width="113" Click="InsertBTN_Click"/>
+            <TextBox x:Name="BoxName" HorizontalAlignment="Left" Height="23" Margin="333,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource="{Binding Job}" DisplayMemberPath="JobTitle_Name" SelectedValuePath="JobTitle_Name" x:Name="cboJob" HorizontalAlignment="Left" Margin="333,76,0,0" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource="{Binding Department}" DisplayMemberPath="Department_Name" SelectedValuePath="Department_Name" x:Name="cboDepartment" HorizontalAlignment="Left" Margin="333,103,0,0" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource ="{Binding Major}" DisplayMemberPath="Major_Name" SelectedValuePath="Major_Name" x:Name="cboMajor" HorizontalAlignment="Left" Margin="333,130,0,0" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource="{Binding Bachelor}" DisplayMemberPath="Bachelor_Name" SelectedValuePath="Bachelor_Name" x:Name="cboBachelor" HorizontalAlignment="Left" Margin="558,160,0,0" VerticalAlignment="Top" Width="113"/>
+            <TextBox x:Name="boxAddress" HorizontalAlignment="Left" Height="23" Margin="333,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="234,198,0,0" TextWrapping="Wrap" Text="Address" VerticalAlignment="Top"/>
+        </Grid>
+        <Image Margin="24,27,711,373" Source="group.png" Stretch="Fill"/>
+
+        <Grid x:Name="EmployeeGrid" Visibility="Collapsed">
+            <DataGrid Loaded="EmployeeProfile_Loaded" AutoGenerateColumns="False" x:Name="EmployeeProfile" HorizontalAlignment="Left" Height="auto" Margin="231,39,0,0" VerticalAlignment="Top" Width="auto" MaxWidth="600">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="NIK" Binding="{Binding NIK}"/>
+                    <DataGridTextColumn Header="Job" Binding="{Binding JobTitle}"/>
+                    <DataGridTextColumn Header="Department" Binding="{Binding Department}"/>
+                    <DataGridTextColumn Header="Major" Binding="{Binding Major}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                    <DataGridTextColumn Header="PhoneNumber" Binding="{Binding PhoneNumber}"/>
+                    <DataGridTextColumn Header="BirthPlace" Binding="{Binding BirthPlace}"/>
+                    <DataGridTextColumn Header="BirthDate" Binding="{Binding BirthDate}"/>
+                    <DataGridTextColumn Header="Address" Binding="{Binding Address}"/>
+                    <DataGridTextColumn Header="Bachelor" Binding="{Binding Bachelor}"/>
+                    <DataGridTextColumn Header="University" Binding="{Binding University}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <StackPanel x:Name="stackDelete" Margin="708,72,10,385" Orientation="Vertical" Visibility="Collapsed">
+            <ComboBox Margin="0,0,0,5"  x:Name="cboDelete" ItemsSource="{Binding EmployeeVM}" DisplayMemberPath="Name" SelectedValuePath="Name" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="DeleteBTN" Click="DeleteBTN_Click" Content="Delete" HorizontalAlignment="Right" Margin="45,0,0,0" VerticalAlignment="Top" Width="75"/>
+        </StackPanel>
+        <Grid x:Name="userInput" Margin="612,38,10,360" Visibility="Collapsed">
+            <TextBox x:Name="TboEmail" HorizontalAlignment="Right" Height="23" Margin="101,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+            <TextBox x:Name="TboPassword" HorizontalAlignment="Right" Height="23" Margin="101,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+            <TextBox x:Name="TboRole" HorizontalAlignment="Right" Height="23" Margin="101,56,0,5" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+            <Label Content="Email" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Width="50" Height="23"/>
+            <Label Content="Password" HorizontalAlignment="Left" Margin="0,29,0,0" VerticalAlignment="Top" Width="62" Height="23"/>
+            <Label Content="Role" HorizontalAlignment="Left" Margin="0,56,0,0" VerticalAlignment="Top" Width="62" Height="23"/>
+            <Button Click="InsertUser_Click" x:Name="InsertUser" Content="Insert" HorizontalAlignment="Right" Height="25" Margin="101,84,0,0" VerticalAlignment="Top" Width="120" />
+        </Grid>
+        <DataGrid Loaded="UserData_Loaded" x:Name="userData" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="auto" Margin="231,39,0,0" VerticalAlignment="Top" Width="auto" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Email" Binding="{Binding email}"/>
+                <DataGridTextColumn Header="Password" Binding="{Binding password}"/>
+                <DataGridTextColumn Header="Role" Binding="{Binding role}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Margin="770,175,10,313" Width="auto" Height="auto" Visibility="Collapsed">
+
+            <Button x:Name="deleteUser" Content="Delete" HorizontalAlignment="Left" Margin="0,27,0,0" VerticalAlignment="Top" Width="75" Click="DeleteUser_Click"/>
+            <ComboBox x:Name="cboUser" ItemsSource="{Binding Login}" DisplayMemberPath="email" SelectedValuePath="email" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
+
+        </Grid>
+        <Grid Name="gridUpdate" Margin="452,31,10,199" Visibility="Collapsed" Width="auto" Height="auto">
+            <TextBlock HorizontalAlignment="Left" Margin="0,3,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="50"/>
+            <TextBlock HorizontalAlignment="Left" Margin="1,32,0,0" TextWrapping="Wrap" Text="Job" VerticalAlignment="Top" Width="29"/>
+            <TextBlock HorizontalAlignment="Left" Margin="1,60,0,0" TextWrapping="Wrap" Text="Department" VerticalAlignment="Top" Width="67"/>
+            <TextBlock HorizontalAlignment="Left" Margin="0,90,0,0" TextWrapping="Wrap" Text="Major" VerticalAlignment="Top" Width="42"/>
+            <TextBlock HorizontalAlignment="Left" Margin="1,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="17" Width="97"><Run Text="Phone Number"/><LineBreak/><Run/></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Margin="1,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Width="66"><Run Text="Birth Place"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+            <TextBox x:Name="tboPhone" HorizontalAlignment="Left" Height="23" Margin="100,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" />
+            <TextBox x:Name="tboBirth" HorizontalAlignment="Left" Height="23" Margin="100,171,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <DatePicker Text="{Binding DateTimeValue, StringFormat=dd-MM-YYYY}" x:Name= "tboBirthDate" HorizontalAlignment="Left" Margin="100,199,0,0" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="1,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="66"><Run Text="Birth Date"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Margin="242,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="NIK" Width="29"/>
+            <TextBox x:Name="tboNIK" HorizontalAlignment="Left" Height="23" Margin="325,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <TextBox x:Name="tboEmail" HorizontalAlignment="Left" Height="23" Margin="325,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="241,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Email" Width="67"/>
+            <ComboBox ItemsSource="{Binding Religion}" DisplayMemberPath="Religion_Name" SelectedValuePath="Religion_Name" x:Name="tboReligion" HorizontalAlignment="Left" Margin="325,56,0,0" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="241,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Religion" Width="67"/>
+            <TextBox x:Name="tboNPWP" HorizontalAlignment="Left" Height="23" Margin="325,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" RenderTransformOrigin="0.507,0.449"/>
+            <TextBlock HorizontalAlignment="Left" Margin="241,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="NPWP" Width="67"/>
+            <TextBlock HorizontalAlignment="Left" Margin="241,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Bachelor" Width="67"/>
+            <TextBox x:Name="tboUniversity" HorizontalAlignment="Left" Height="23" Margin="325,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" RenderTransformOrigin="0.507,0.449"/>
+            <TextBlock HorizontalAlignment="Left" Margin="242,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="University" Width="67"/>
+            <DatePicker Text="{Binding DateTimeValue, StringFormat=dd-MM-YYYY}" x:Name="tboJoin" HorizontalAlignment="Left" Margin="325,169,0,0" VerticalAlignment="Top" Width="113" IsTodayHighlighted="True"/>
+            <TextBlock HorizontalAlignment="Left" Margin="241,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Join Date" Width="67"/>
+            <Button x:Name="updateBTN" Content="Update" HorizontalAlignment="Left" Height="21" Margin="325,202,0,0" VerticalAlignment="Top" Width="113" Click="UpdateBTN_Click"/>
+            <TextBox x:Name="tboName" HorizontalAlignment="Left" Height="23" Margin="100,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource="{Binding Job}" DisplayMemberPath="JobTitle_Name" SelectedValuePath="JobTitle_Name" x:Name="tboJob" HorizontalAlignment="Left" Margin="100,28,0,0" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource="{Binding Department}" DisplayMemberPath="Department_Name" SelectedValuePath="Department_Name" x:Name="tboDepartment" HorizontalAlignment="Left" Margin="100,55,0,0" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource ="{Binding Major}" DisplayMemberPath="Major_Name" SelectedValuePath="Major_Name" x:Name="tboMajor" HorizontalAlignment="Left" Margin="100,82,0,0" VerticalAlignment="Top" Width="113"/>
+            <ComboBox ItemsSource="{Binding Bachelor}" DisplayMemberPath="Bachelor_Name" SelectedValuePath="Bachelor_Name" x:Name="tboBachelor" HorizontalAlignment="Left" Margin="325,112,0,0" VerticalAlignment="Top" Width="113"/>
+            <TextBox x:Name="tboAddress" HorizontalAlignment="Left" Height="23" Margin="100,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
+            <TextBlock HorizontalAlignment="Left" Margin="1,150,0,0" TextWrapping="Wrap" Text="Address" VerticalAlignment="Top"/>
+
+
+        </Grid>
+
+
     </Grid>
 </Window>
